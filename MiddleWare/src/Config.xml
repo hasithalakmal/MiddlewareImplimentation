@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<mw>
+	<dbconfig id="1">
+		<host>jdbc:mysql://localhost:3306/</host>
+                <databasename>abc</databasename>
+		<username>root</username>
+		<password>massa@123</password>
+	</dbconfig>
+        
+        
+        <ServerConfig id="A">
+            <IP>127.0.0.1</IP>
+            <port>8881</port>
+            <numberOfMethods>2</numberOfMethods>
+            <methods>
+                <method>int add 2 int int </method>
+                <method>int div 2 int int </method>
+            </methods>
+        </ServerConfig>
+        
+        
+        <ServerConfig id="B">
+            <IP>127.0.0.2</IP>
+            <port>8882</port>
+            <numberOfMethods>1</numberOfMethods>
+            <methods>
+                <method>int sub 2 int int </method>
+            </methods>
+        </ServerConfig>
+        
+        
+        <ServerConfig id="C">
+            <IP>127.0.0.3</IP>
+            <port>8883</port>
+            <numberOfMethods>1</numberOfMethods>
+            <methods>
+                <method>int mul 2 int int </method>
+            </methods>
+        </ServerConfig>
+        
+</mw>
