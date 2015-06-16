@@ -29,7 +29,7 @@ public class ClientSocketConfig {
             System.err.println("Server is listing on port : " + x);
             return true;
         } catch (IOException ex) {
-            System.err.println("Server couden't listing on port : " + x);
+           // System.err.println("Server couden't listing on port : " + x);
             return false;
         }
     }
@@ -131,5 +131,56 @@ public class ClientSocketConfig {
             System.err.println("Error in create connection");
         }
         
+    }
+    
+    public String runClient5(String IP,int port,String caller) {
+        ClientSocketConfig csc = this;
+        String responce="";
+       
+            String IPAdress = IP;
+            int PortNumber = port;
+           
+            boolean b = csc.isCreateSocket(IPAdress, PortNumber);
+            if (b) {
+                b = csc.createinputStream();
+                if (b) {
+                    b = csc.createOutputStream();
+                    if (b) {
+                        //function starts from hear......
+                       // System.out.println("Enter to coding area....");
+                        csc.WriteServer(caller);
+                        responce = csc.ReadServer();
+                       // System.out.println("leving from coding area....");
+                        //function ends from hear
+                        b = csc.closeInputStream();
+                        if (b) {
+                           // System.out.println("closeInputStream");
+                            b = csc.closeOutputStream();
+                            if (b) {
+                                //System.out.println("closeOutputStream");
+                                b = csc.closeSocket();
+                                if (b) {
+                                   // System.out.println("Socket is closed perfectly");
+                                } else {
+                                   // System.err.println("Client Error in closeSocket()");
+                                }
+                            } else {
+                               // System.err.println("Client Error in closeOutputStream()");
+                            }
+                        } else {
+                           // System.err.println("Client Error in closeInputStream()");
+                        }
+                    } else {
+                       // System.err.println("Client Error in createOutputStream()");
+                    }
+                } else {
+                  //  System.err.println("Client Error in createinputStream()");
+                }
+            } else {
+               // System.err.println("Client Error in isCreateSocket()");
+            }
+        
+        
+        return responce;
     }
 }

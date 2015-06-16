@@ -10,14 +10,29 @@ package app1;
  * @author Massa
  */
 public class MyClient {
+
     public static void main(String[] args) {
         ClientSocketConfig csc = new ClientSocketConfig();
-        while(true){
-        csc.runClient("127.0.0.1",8884);
-        csc.runClient("127.0.0.2", 8883);
-        csc.runClient("127.0.0.3", 8882);
-        csc.runClient("127.0.0.3", 8881);
-        csc.runClient("127.0.0.3", 8880);
-        }
+       
+           String x = csc.runClient5("127.0.0.1", 9876,"add 5 6");
+           System.out.println(x);
+           x = csc.runClient5("127.0.0.1", 9876,"add 5 6");
+           
+           x = csc.runClient5("127.0.0.1", 9876,"sub 3 5");
+           System.out.println(x);
+           x = csc.runClient5("127.0.0.1", 9876,"sub 3 5");
+           
+           x = csc.runClient5("127.0.0.1", 9876,"mul 5 6");
+           System.out.println(x);
+           x = csc.runClient5("127.0.0.1", 9876,"mul 5 6");
+           
+           x = csc.runClient5("127.0.0.1", 9876,"div 8 2");
+           System.out.println(x);
+           x = csc.runClient5("127.0.0.1", 9876,"div 8 2");
+           
+           x = csc.runClient5("127.0.0.1", 9876,"add 1 2");
+           System.out.println(x);
+           x = csc.runClient5("127.0.0.1", 9876,"add 1 2");
+        
     }
 }

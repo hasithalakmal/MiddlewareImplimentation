@@ -12,7 +12,6 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-
 /**
  *
  * @author Massa
@@ -23,6 +22,7 @@ public class ServerSocketConfig {
     private Socket clientSocket;
     private PrintWriter out;
     private BufferedReader in;
+    private ServerSocketConfig ssc;
 
     //create socket
     public boolean isCreateSocket(int x) {
@@ -31,47 +31,45 @@ public class ServerSocketConfig {
             System.err.println("Server is listing on port : " + x);
             return true;
         } catch (IOException ex) {
-            System.err.println("Server couden't listing on port : " + x);
+            // System.err.println("Server couden't listing on port : " + x);
             return false;
         }
     }
-    
 
     // Wait for a connection, and process
     public boolean isAcceptSocket() {
         try {
             clientSocket = serverSocket.accept();
-            System.err.println("Now client is connected ");
+            // System.err.println("Now client is connected ");
             return true;
         } catch (IOException ex) {
-            System.err.println("Client is not connected");
+            // System.err.println("Client is not connected");
             return false;
         }
     }
 
-    
     //Creating output stream 
     public boolean createOutputStream() {
         try {
             out = new PrintWriter(clientSocket.getOutputStream(), true);
-           // System.out.println("Create outpot stream");
+            // System.out.println("Create outpot stream");
             return true;
         } catch (IOException ex) {
             return false;
         }
     }
-    
+
     //Creating input stream 
     public boolean createinputStream() {
         try {
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-           // System.out.println("Create outpot stream");
+            // System.out.println("Create outpot stream");
             return true;
         } catch (IOException ex) {
             return false;
         }
     }
-    
+
     // read stream
     public String ReadClient() {
         try {
@@ -84,11 +82,11 @@ public class ServerSocketConfig {
 
     // write stream
     public void WriteClient(String msg) {
-            out.println(msg); 
+        out.println(msg);
     }
-    
+
     //close input stream
-    public boolean closeInputStream(){
+    public boolean closeInputStream() {
         try {
             in.close();
             return true;
@@ -96,9 +94,9 @@ public class ServerSocketConfig {
             return false;
         }
     }
-    
+
     //close output stream
-    public boolean closeOutputStream(){
+    public boolean closeOutputStream() {
         try {
             out.close();
             return true;
@@ -106,9 +104,9 @@ public class ServerSocketConfig {
             return false;
         }
     }
-    
+
     //close Socket
-    public boolean closeSocket(){
+    public boolean closeSocket() {
         try {
             clientSocket.close();
             return true;
@@ -116,9 +114,9 @@ public class ServerSocketConfig {
             return false;
         }
     }
-    
-    public void runserver(int x){
-        
+
+    public void runserver(int x) {
+
         ServerSocketConfig ssc = this;
         boolean b1 = ssc.isCreateSocket(x);
         if (b1) {
@@ -126,18 +124,21 @@ public class ServerSocketConfig {
             if (b1) {
                 ssc.createinputStream();
                 ssc.createOutputStream();
-                while (b1) {
+                boolean logic = true;
+                while (logic) {
                     String msg = ssc.ReadClient();
-                    System.out.println("Client sends massage : " + msg);
-                    if (msg.equals("bye")) {
-                        break;
+                    if (msg.equals("Error In reding")) {
+                        logic = false;
                     } else {
-                        ssc.WriteClient("massa send : " + msg);
+                        System.out.println("Client sends massage : " + msg);
+                        if (msg.equals("bye")) {
+                            logic = false;
+                        } else {
+                            ssc.WriteClient("massa send : " + msg);
+                        }
                     }
                 }
-
-                ssc.WriteClient("Terminating the client connection1111.");
-                System.err.println("Terminating the client connection.22222");
+                System.err.println("Terminating the Sever connection.");
                 ssc.closeInputStream();
                 ssc.closeOutputStream();
                 ssc.closeSocket();
@@ -149,5 +150,92 @@ public class ServerSocketConfig {
             System.out.println("Error in create socket");
         }
     }
-    
+
+    /*   public void runserverF(int x) {
+
+     ServerSocketConfig ssc = this;
+     boolean b1 = ssc.isCreateSocket(x);
+     if (b1) {
+     b1 = ssc.isAcceptSocket();
+     if (b1) {
+     ssc.createinputStream();
+     ssc.createOutputStream();
+
+     String msg = ssc.ReadClient();
+     System.out.println("Client sends massage : " + msg);
+
+     ssc.WriteClient("massa send : " + msg);
+
+     ssc.WriteClient("Terminating the client connection1111.");
+     System.err.println("Terminating the client connection.22222");
+     ssc.closeInputStream();
+     ssc.closeOutputStream();
+     ssc.closeSocket();
+
+     } else {
+     ssc.closeSocket();
+     System.out.println("Error in Accept socket");
+     }
+     } else {
+     System.out.println("Error in create socket");
+     }
+     }
+
+     public boolean initConnection(int x) {
+     ssc = this;
+     boolean Socket = ssc.isCreateSocket(x);
+     if (Socket) {
+     boolean Accept = ssc.isAcceptSocket();
+     if (Accept) {
+     ssc.createinputStream();
+     ssc.createOutputStream();
+     return true;
+     }
+     ssc.closeSocket();
+     return false;
+     } else {
+     return false;
+     }
+     }
+
+     public void finishConnection() {
+     ssc = this;
+     ssc.closeInputStream();
+     ssc.closeOutputStream();
+     ssc.closeSocket();
+     }
+     */
+    public void runserver5(int x) {
+        String msg;
+        ServerSocketConfig ssc = this;
+        ClientSocketConfig csc = new ClientSocketConfig();
+
+        boolean b1 = ssc.isCreateSocket(x);
+        if (b1) {
+            b1 = ssc.isAcceptSocket();
+            if (b1) {
+                ssc.createinputStream();
+                ssc.createOutputStream();
+
+                //code start from hear
+                msg = ssc.ReadClient();
+                System.out.println("App sends massage : " + msg);
+                String res = csc.runClient5(msg);
+                System.out.println(res);
+                ssc.WriteClient("Middleware sends : " + res);
+                res = csc.runClient5(msg);
+
+    //codes ends from hear
+                System.err.println("Terminating the Sever connection.");
+                ssc.closeInputStream();
+                ssc.closeOutputStream();
+                ssc.closeSocket();
+
+            } else {
+                System.out.println("Error in Accept socket");
+            }
+        } else {
+            //System.out.println("Error in create socket");
+        }
+    }
 }
